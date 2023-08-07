@@ -16,8 +16,7 @@ public class TrybeGamesDatabase
             from game in Games
             where game.DeveloperStudio == gameStudio.Id
             select game
-        )
-        .ToList();
+        ).ToList();
     }
 
     // 5. Crie a funcionalidade de buscar jogos jogados por uma pessoa jogadora
@@ -29,8 +28,7 @@ public class TrybeGamesDatabase
             from play in game.Players 
             where player.Id == play
             select game
-        )
-        .ToList();
+        ).ToList();
     }
 
     // 6. Crie a funcionalidade de buscar jogos comprados por uma pessoa jogadora
@@ -41,8 +39,7 @@ public class TrybeGamesDatabase
             from game in Games
             where playerEntry.GamesOwned.Contains(game.Id)
             select game
-        )
-        .ToList();
+        ).ToList();
     }
 
 
@@ -60,8 +57,7 @@ public class TrybeGamesDatabase
                 StudioName = studio.Name,
                 NumberOfPlayers = game.Players.Count
             }
-        )
-        .ToList();                     
+        ).ToList();                     
     }
     
     // 8. Crie a funcionalidade de buscar todos os diferentes Tipos de jogos dentre os jogos cadastrados
@@ -71,16 +67,36 @@ public class TrybeGamesDatabase
         (
             from game in Games
             select game.GameType
-        )
-        .Distinct()
-        .ToList();
+        ).Distinct().ToList();
     }
 
     // 9. Crie a funcionalidade de buscar todos os estúdios de jogos junto dos seus jogos desenvolvidos com suas pessoas jogadoras
     public List<StudioGamesPlayers> GetStudiosWithGamesAndPlayers()
     {
-        // Implementar
-        throw new NotImplementedException();
+        return 
+        (
+            from studio in GameStudios
+            select new StudioGamesPlayers
+            {
+                GameStudioName = studio.Name,
+                Games = 
+                (
+                    from game in Games
+                    where game.DeveloperStudio == studio.Id
+                    select new GamePlayer
+                    {
+                        GameName = game.Name,
+                        Players = 
+                        (
+                            from playerId in game.Players
+                            join player in Players
+                            on playerId equals player.Id
+                            select player
+                        ).ToList()
+                    }
+                ).ToList()
+            }
+        ).ToList();
     }
 
 }
