@@ -120,9 +120,19 @@ public class TrybeGamesController
     // 1. Crie a funcionalidde para adicionar uma nova pessoa jogadora ao banco de dados
     public void AddPlayer()
     {
-        // implementar
-        Console.WriteLine("Ainda não é possível realizar essa funcionalidade!");
+        string playerName = Console.ReadLine();
+
+        int newPlayerId = database.Players.Count + 1;
+
+        Player newPlayer = new()
+        {
+            Id = newPlayerId,
+            Name = playerName
+        };
+
+        database.Players.Add(newPlayer);
     }
+
 
     // 2. Crie a funcionalidade de adicionar um novo estúdio de jogos ao banco de dados
     public void AddGameStudio()
