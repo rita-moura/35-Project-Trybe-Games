@@ -16,7 +16,8 @@ public class TrybeGamesDatabase
             from game in Games
             where game.DeveloperStudio == gameStudio.Id
             select game
-        ).ToList();
+        )
+        .ToList();
     }
 
     // 5. Crie a funcionalidade de buscar jogos jogados por uma pessoa jogadora
@@ -28,7 +29,8 @@ public class TrybeGamesDatabase
             from play in game.Players 
             where player.Id == play
             select game
-        ).ToList();
+        )
+        .ToList();
     }
 
     // 6. Crie a funcionalidade de buscar jogos comprados por uma pessoa jogadora
@@ -39,7 +41,8 @@ public class TrybeGamesDatabase
             from game in Games
             where playerEntry.GamesOwned.Contains(game.Id)
             select game
-        ).ToList();
+        )
+        .ToList();
     }
 
 
@@ -57,14 +60,20 @@ public class TrybeGamesDatabase
                 StudioName = studio.Name,
                 NumberOfPlayers = game.Players.Count
             }
-        ).ToList();                     
+        )
+        .ToList();                     
     }
     
     // 8. Crie a funcionalidade de buscar todos os diferentes Tipos de jogos dentre os jogos cadastrados
     public List<GameType> GetGameTypes()
     {
-        // Implementar
-        throw new NotImplementedException();
+        return 
+        (
+            from game in Games
+            select game.GameType
+        )
+        .Distinct()
+        .ToList();
     }
 
     // 9. Crie a funcionalidade de buscar todos os estúdios de jogos junto dos seus jogos desenvolvidos com suas pessoas jogadoras
