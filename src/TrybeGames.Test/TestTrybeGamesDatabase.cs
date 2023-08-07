@@ -14,13 +14,25 @@ public class TestTrybeGamesDatabase
     [MemberData(nameof(DataTestGetGamesPlayedBy))]
     public void TestGetGamesPlayedBy(TrybeGamesDatabase databaseEntry, int playerIdEntry, List<Game> expected)
     {
-        throw new NotImplementedException();
-
         // Arrange
-        
-        // AcT
+        var database = new TrybeGamesDatabase
+        {
+            Games = new List<Game>(databaseEntry.Games),
+            GameStudios = new List<GameStudio>(databaseEntry.GameStudios),
+            Players = new List<Player>(databaseEntry.Players)
+        };
+
+        // Act
+        var result = database.GetGamesPlayedBy(database.Players.FirstOrDefault(player => player.Id == playerIdEntry));
 
         // Assert
+        Assert.NotNull(result);
+        Assert.Equal(expected.Count, result.Count);
+
+        foreach (var game in result)
+        {
+            Assert.Contains(playerIdEntry, game.Players);
+        }
     }
 
     public static TheoryData<TrybeGamesDatabase, int, List<Game>> DataTestGetGamesPlayedBy => new TheoryData<TrybeGamesDatabase, int, List<Game>>
