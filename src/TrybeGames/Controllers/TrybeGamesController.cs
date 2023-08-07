@@ -132,7 +132,6 @@ public class TrybeGamesController
         };
 
         database.Players.Add(newPlayer);
-
         Console.WriteLine("Novo jogador adicionado com sucesso!");
     }
 
@@ -140,7 +139,7 @@ public class TrybeGamesController
     // 2. Crie a funcionalidade de adicionar um novo estúdio de jogos ao banco de dados
     public void AddGameStudio()
     {
-        Console.WriteLine("Digite o nome do novo estúdio de jogo:");
+        Console.WriteLine("Digite o nome do novo estúdio de jogos:");
         string studioName = Console.ReadLine();
 
         int newStudioId = database.GameStudios.Count + 1;
@@ -153,14 +152,38 @@ public class TrybeGamesController
 
         database.GameStudios.Add(newGameStudio);
 
-        Console.WriteLine("Novo estúdio de jogo adicionado com sucesso!");
+        Console.WriteLine("Novo estúdio de jogos adicionado com sucesso!");
     }
+    
 
-    // 3. Crie a funcionalidade de adicionar novo Jogo ao Banco de dados
+    // 3. Crie a funcionalidade de adicionar um novo Jogo ao Banco de dados
     public void AddGame()
     {
-        // implementar
-        Console.WriteLine("Ainda não é possível realizar essa funcionalidade!");
+        Console.WriteLine("Digite o nome do novo jogo:");
+        string name = Console.ReadLine();
+
+        Console.WriteLine("Digite a data de lançamento do jogo:");
+        string releaseDateString = Console.ReadLine();
+        DateTime releaseDate = DateTime.ParseExact(releaseDateString, "dd/mm/yyyy", CultureInfo.InvariantCulture);
+
+        Console.WriteLine("Digite o tipo de jogo:");
+        string typeGame = Console.ReadLine();
+        
+        GameType type = (GameType)Enum.Parse(typeof(GameType), typeGame);
+
+        int newGameId = database.Games.Count + 1;
+
+        Game newGame = new()
+        {
+            Id = newGameId,
+            Name = name,
+            ReleaseDate = releaseDate,
+            GameType = type
+        };
+
+        database.Games.Add(newGame);
+
+        Console.WriteLine("Novo jogo adicionado com sucesso!");
     }
 
     public void ChangeGameStudio(Game game)
